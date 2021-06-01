@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>微博可视化</title>
+    <link rel="icon" type="image/x-icon" href="/static/images/DataWorks-blue.png">
+    <script type="text/javascript" src="/static/js/echarts.js"></script>
+    <script type="text/javascript" src="/static/js/china.js"></script>
+    <script type="text/javascript" src="/static/js/macarons.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div style="width: 100%; height: 100%;">
+    <div style="background-color: blueviolet; width: 100%; height: 30%; position: absolute;">
+        <h1 style="alignment: center;position: absolute; top: 5px; left: 75px">
+            <span class="label-default label" style="font-family: 'Arial Black'; font-size: xx-large; color: #f1dcff">
+                <img src="/static/images/DataWorks-blue%20(1).png">
+                微博数据分析平台
+            </span>
+        </h1>
+    </div>
+    <div style="background-color: #00aeff; width: 15%; height: 85%; position: absolute; top: 15%; left: 25px;border-radius: 10px;">
+        <div class="btn-group-vertical" style="width: 230.4px">
+            <form action="/index" method="get">
+                <button class="btn" style="width: 203.4px;font-size: x-large;font-family: Arial;color: #b5fffd;text-align: center">
+                    首页
+                </button>
+            </form>
+            <div class="btn-group-vertical">
+                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 230.4px; font-size: x-large;font-family: Arial;color: #b5fffd;text-align: center">
+                    博主
+                </button>
+                <div class="dropdown-menu" style="width: 230.4px;background-color: #00d7ff; text-align: center">
+                    <form action="" method="get">
+                        <button class="btn" style="color: #deffff">男女比例</button>
+                    </form>
+                    <form action="/map" method="get">
+                        <button class="btn" style="color: #deffff">地址云图</button>
+                    </form>
+                </div>
+            </div>
+            <div class="btn-group-vertical">
+                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 230.4px;font-size: x-large;font-family: Arial;color: #b5fffd;text-align: center">
+                    微博
+                </button>
+                <div class="dropdown-menu" style="width: 230.4px;background-color: #00d7ff; text-align: center">
+                    <form action="/phonePie" method="get">
+                        <button class="btn" style="color: #deffff">微博来源比例</button>
+                    </form>
+                    <form action="/ployChart" method="get">
+                        <button class="btn" style="color: #deffff">每月微博数</button>
+                    </form>
+                </div>
+            </div>
+            <div class="btn-group-vertical">
+                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 230.4px;font-size: x-large;font-family: Arial;color: #b5fffd;text-align: center">
+                    个体分析
+                </button>
+                <div class="dropdown-menu" style="width: 230.4px;background-color: #00d7ff; text-align: center">
+                    <form action="/ployYu" method="get">
+                        <button class="btn" style="color: #deffff">余文乐</button>
+                    </form>
+                    <form action="/ployG" method="get">
+                        <button class="btn" style="color: #deffff">关晓彤</button>
+                    </form>
+                    <form action="/ployW" method="get">
+                        <button class="btn" style="color: #deffff">魏大勋</button>
+                    </form>
+                    <form action="/ployY" method="get">
+                        <button class="btn" style="color: #deffff">杨迪</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="chart" style="background-color: whitesmoke; width: 80%; height: 85%; position: absolute; top: 15%; right: 25px;border-radius: 10px;">
+
+    </div>
+</div>
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('chart'), 'macarons');
+        var option = {
+            title : {
+                text: '微博用户性别比例',
+                subtext: '仅部分微博数据',
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient : 'vertical',
+                x : 'left',
+                data:['男生比例','女生比例']
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    mark : {show: true},
+                    {#dataView : {show: true, readOnly: false},#}
+                    magicType : {
+                        show: true,
+                        type: ['pie', 'funnel'],
+                        option: {
+                            funnel: {
+                                x: '25%',
+                                width: '50%',
+                                funnelAlign: 'left',
+                                max: 1548
+                            }
+                        }
+                    },
+                    {#restore : {show: true},#}
+                    {#saveAsImage : {show: true}#}
+                }
+            },
+            calculable : true,
+            series : [
+                {
+                    name:'性别比例',
+                    type:'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    label:{
+                    textStyle:{
+                        fontWeight: 300,
+                        fontSize:25,
+                    }
+                },
+                    data:{{ data | safe}}
+                }
+            ]
+        };
+    myChart.setOption(option, true)
+
+</script>
+</body>
+</html>

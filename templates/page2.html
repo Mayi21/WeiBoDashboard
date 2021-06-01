@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据可视化平台</title>
+    <link rel="icon" type="image/x-icon" href="/static/images/DataWorks-blue.png">
+    <script type="text/javascript" src="/static/js/echarts.js"></script>
+    <script type="text/javascript" src="/static/js/china.js"></script>
+    <script type="text/javascript" src="/static/js/macarons.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div style="width: 100%; height: 100%;">
+    <div style="background-color: blueviolet; width: 100%; height: 30%; position: absolute;">
+        <h1 style="alignment: center;position: absolute; top: 5px; left: 75px">
+            <span class="label-default label" style="font-family: 'Arial Black'; font-size: xx-large; color: #f1dcff">
+                <img src="/static/images/DataWorks-blue%20(1).png">
+                微博数据分析平台
+            </span>
+        </h1>
+    </div>
+    <div class="btn-group" style="position: absolute; right: 70px; top: 5px;">
+{#            <form action="/index" method="get">#}
+{#                <button class="btn" style="width: 150px; height: 50px;font-size: x-large;font-family: Arial;color: #b5fffd;text-align: center">#}
+{#                    首页#}
+{#                </button>#}
+{#            </form>#}
+            <div class="btn-group">
+                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 150px; height: 50px; font-size: x-large;font-family: Arial;color: #b5fffd;text-align: center">
+                    博主
+                </button>
+                <div class="dropdown-menu" style="width: 150px;background-color: #00d7ff; text-align: center;">
+                    <form action="/pie" method="get">
+                        <button class="btn" style="color: #deffff">男女比例</button>
+                    </form>
+                    <form action="/map" method="get">
+                        <button class="btn" style="color: #deffff">地址云图</button>
+                    </form>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 150px; height: 50px;font-size: x-large;font-family: Arial;color: #b5fffd;text-align: center">
+                    微博
+                </button>
+                <div class="dropdown-menu" style="width: 150px;text-align: center;background-color: #00d7ff">
+                    <form action="/phonePie" method="get">
+                        <button class="btn" style="color: #deffff">微博来源比例</button>
+                    </form>
+                    <form action="/ployChart" method="get">
+                        <button class="btn" style="color: #deffff">每月微博数</button>
+                    </form>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 150px; height: 50px; font-size: x-large;font-family: Arial;color: #b5fffd;text-align: center">
+                    个体分析
+                </button>
+                <div class="dropdown-menu" style="width: 150px;text-align: center;background-color: #00d7ff">
+                    <form action="/ployYu" method="get">
+                        <button class="btn" style="color: #deffff">余文乐</button>
+                    </form>
+                    <form action="/ployG" method="get">
+                        <button class="btn" style="color: #deffff">关晓彤</button>
+                    </form>
+                    <form action="/ployW" method="get">
+                        <button class="btn" style="color: #deffff">魏大勋</button>
+                    </form>
+                    <form action="/ployY" method="get">
+                        <button class="btn" style="color: #deffff">杨迪</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <div style="position: absolute; top: 70px;left: 5%">
+        <span style="font-family: 'Microsoft YaHei UI'; font-size: large; color: #f1dcff">微博博主数</span>
+        <span style="font-family: 'Arial Black'; font-size: large; color: #3fd5ff">{{ num|safe }}</span>
+        <span style="font-family: 'Microsoft YaHei UI'; font-size: large; color: #f1dcff">微博数</span>
+        <span style="font-family: 'Arial Black'; font-size: large; color: #3fd5ff">{{ count|safe }}</span>
+    </div>
+    <div style="background-color: #f5f5f5; width: 90%; height: 1085px; position: absolute; top: 15%;right: 5%; border-radius: 10px;">
+{#        展示男女比例的饼状图<-- -->#}
+        <div id="pie" style="background-color: white; width: 400px; height: 400px; position: absolute; top: 25px; left: 25px; border-radius: 10px">
+
+        </div>
+{#        人员分布#}
+        <div id="map" style="background-color: white; width: 900px; height: 500px; position: absolute; top: 25px; right: 25px; border-radius: 10px">
+
+        </div>
+{#        发博数量和日期之间的关系#}
+        <div id="ployChart" style="background-color: white; width: 900px; height: 500px; position: absolute; top: 555px; left: 25px; border-radius: 10px">
+        </div>
+{#        发博设备的饼状图#}
+        <div id="phonePie" style="background-color: white; width: 400px; height: 400px; position: absolute; top: 555px; right: 25px; border-radius: 10px">
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var mychart1 = echarts.init(document.getElementById('pie'), 'macarons');
+    var option1 = {
+        title : {
+            text: '微博用户性别比例',
+            subtext: '仅部分微博数据',
+            x:'left'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient : 'vertical',
+            x : 'center',
+            data:['男生比例','女生比例']
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                magicType : {
+                    show: true,
+                    type: ['pie', 'funnel'],
+                    option: {
+                        funnel: {
+                            x: '25%',
+                            width: '50%',
+                            funnelAlign: 'left',
+                            max: 3000
+                        }
+                    }
+                },
+            }
+        },
+        calculable : true,
+        series : [
+            {
+                name:'性别比例',
+                type:'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                label:{
+                    textStyle:{
+                        fontWeight: 300,
+                        fontSize:15,
+                    }
+                },
+                data:{{ data1 | safe}}
+            }
+        ]
+    };
+    mychart1.setOption(option1);
+    var mychart2 = echarts.init(document.getElementById('map'), 'macarons');
+    var option2 = {
+        title : {
+            text: '微博人口分布',
+            subtext: '仅部分微博数据',
+        },
+        tooltip : {
+            trigger: 'item'
+        },
+        dataRange: {
+            orient: 'horizontal',
+            min: 0,
+            max: 800,
+            text:['高','低'],           // 文本，默认为数值文本
+            splitNumber:0
+        },
+        toolbox: {
+            show : true,
+            orient: 'vertical',
+            x:'right',
+            y:'center',
+            feature : {
+                mark : {show: true},
+            }
+        },
+        series : [
+            {
+                name: '微博人口分布',
+                type: 'map',
+                mapType: 'china',
+                mapLocation: {
+                    x: 'left'
+                },
+                selectedMode : 'multiple',
+                itemStyle:{
+                    normal:{label:{show:true}},
+                    emphasis:{label:{show:true}}
+                },
+                data:{{ data2|safe }}
+            },
+
+        ],
+        animation: true
+    };
+    mychart2.setOption(option2);
+    var mychart3 = echarts.init(document.getElementById('ployChart'), 'macarons');
+    var option3 = {
+        title: {
+          text: '微博发送时间',
+          subtext: '仅部分微\n博数据',
+        },
+        tooltip : {
+            trigger: 'axis'
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                magicType : {show: true, type: ['line', 'bar']},
+            }
+        },
+        calculable : true,
+        dataZoom : {
+            show : true,
+            realtime : true,
+            start : 20,
+            end : 80
+        },
+        xAxis : [
+            {
+                name: '数量',
+                type: 'category',
+                boundaryGap: false,
+                data: {{ date|safe }}
+            }
+        ],
+        yAxis : [
+            {
+                name: '日期',
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name: '发博数',
+                type:'line',
+                data: {{ value |safe }}
+            }
+        ]
+    };
+    mychart3.setOption(option3)
+    var mychart4 = echarts.init(document.getElementById('phonePie'), 'macarons');
+    var option4 = {
+        title : {
+            text: '微博来源',
+            subtext: '仅部分微博数据',
+            x:'left'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            x : 'center',
+            y : 'bottom',
+            data:{{ cat | safe}}
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                magicType : {
+                    show: true,
+                    type: ['pie', 'funnel']
+                },
+            }
+        },
+        calculable : true,
+        series : [
+            {
+                name:'数量',
+                type:'pie',
+                radius : '45%',
+                center : ['50%', '50%'],
+                roseType : 'area',
+                x: 'center',               // for funnel
+                max: 40,                // for funnel
+                sort : 'ascending',     // for funnel
+                data: {{ data3|safe }}
+            }
+        ]
+    };
+    mychart4.setOption(option4)
+</script>
+</body>
+</html>

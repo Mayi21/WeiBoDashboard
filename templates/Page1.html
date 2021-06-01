@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>微博数据展示</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div style="width: 100%; height: 100%;">
+    <div style="background-color: blueviolet; width: 100%; height: 30%; position: absolute;">
+        <h1 style="alignment: center;position: absolute; top: 5px; left: 75px">
+            <span class="label-default label" style="font-family: 'Arial Black'; font-size: xx-large; color: #f1dcff">
+                微博数据分析平台
+            </span>
+        </h1>
+    </div>
+    <div style="background-color: #00aeff; width: 15%; height: 85%; position: absolute; top: 15%; left: 25px">
+        <div class="btn-group-vertical" style="width: 230.4px">
+            <button class="btn" style="font-size: x-large;font-family: Arial;color: #b5fffd;text-align: center">
+                首页
+            </button>
+            <div class="btn-group-vertical">
+                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 230.4px; font-size: x-large;font-family: Arial;color: #b5fffd;text-align: center">
+                    博主
+                </button>
+                <div class="dropdown-menu" style="width: 100px;background-color: #00d7ff">
+                    <button class="btn" style="color: #deffff">男女比例</button>
+                    <button class="btn" style="color: #deffff">地址云图</button>
+                </div>
+            </div>
+            <div class="btn-group-vertical">
+                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 230.4px;font-size: x-large;font-family: Arial;color: #b5fffd;text-align: center">
+                    微博
+                </button>
+                <div class="dropdown-menu" style="width: 100px;background-color: #00d7ff">
+                    <button class="btn" style="color: #deffff">微博来源比例</button>
+                    <button class="btn" style="color: #deffff">每月微博数</button>
+                </div>
+            </div>
+            <div class="btn-group-vertical">
+                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 230.4px;font-size: x-large;font-family: Arial;color: #b5fffd;text-align: center">
+                    个体分析
+                </button>
+                <div class="dropdown-menu" style="width: 100px;background-color: #00d7ff">
+                    <form action="ployYu" method="get">
+                        <button class="btn" style="color: #deffff">余文乐</button>
+                    </form>
+                    <form action="ployG" method="get">
+                        <button class="btn" style="color: #deffff">关晓彤</button>
+                    </form>
+                    <form action="ployW" method="get">
+                        <button class="btn" style="color: #deffff">魏大勋</button>
+                    </form>
+                    <form action="ployY" method="get">
+                        <button class="btn" style="color: #deffff">杨迪</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="chart" style="background-color: whitesmoke; width: 80%; height: 85%; position: absolute; top: 15%; right: 25px">
+
+    </div>
+</div>
+</body>
+</html>
