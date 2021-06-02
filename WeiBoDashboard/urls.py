@@ -16,6 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+import Data.views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('getmap/', Data.views.get_map_data, name='getmap'),
+    path('getsexratio/', Data.views.get_sex_ratio, name='getsexratio'),
+    path('getsenddate/', Data.views.get_send_date, name='getsenddate'),
+    path('getweibosource/', Data.views.get_weibo_source, name='getweibosource'),
+    path('getdatainfo/', Data.views.get_data_info, name='getdatainfo'),
+    path('', Data.views.index, name='index'),
 ]
